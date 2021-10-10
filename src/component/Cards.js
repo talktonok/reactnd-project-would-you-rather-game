@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Segment, Header, Grid, Image } from 'semantic-ui-react';
@@ -8,21 +7,21 @@ import Result from './Result';
 import Poll from './Poll';
 import { colors } from '../utils/helpers';
 
-const pollTypes = {
+const TypesOfPoll = {
   POLL: 'POLL',
   QUESTION: 'QUESTION',
-  POLL_RESULT: 'POLL_RESULT'
+  RESULT: 'RESULT'
 };
 
-const PollContent = props => {
+const ContentOfPoll = props => {
   const { pollType, question, unanswered } = props;
 
   switch (pollType) {
-    case pollTypes.POLL:
+    case TypesOfPoll.POLL:
       return <Poll question={question} unanswered={unanswered} />;
-    case pollTypes.QUESTION:
+    case TypesOfPoll.QUESTION:
       return <Questions question={question} />;
-    case pollTypes.POLL_RESULT:
+    case TypesOfPoll.RESULT:
       return <Result question={question} />;
     default:
       return;
@@ -30,13 +29,6 @@ const PollContent = props => {
 };
 
 export class Cards extends Component {
-  static propTypes = {
-    question: PropTypes.object,
-    author: PropTypes.object,
-    pollType: PropTypes.string,
-    unanswered: PropTypes.bool,
-    question_id: PropTypes.string
-  };
   render() {
     const {
       author,
@@ -53,7 +45,7 @@ export class Cards extends Component {
     const tabColor = unanswered === true ? colors.green : colors.blue;
     const borderTop =
       unanswered === null
-        ? `1px solid ${colors.grey}`
+        ? `1.5px solid ${colors.grey}`
         : `2px solid ${tabColor.hex}`;
 
     return (
@@ -74,7 +66,7 @@ export class Cards extends Component {
               <Image src={author.avatarURL} />
             </Grid.Column>
             <Grid.Column width={11}>
-              <PollContent
+              <ContentOfPoll
                 pollType={pollType}
                 question={question}
                 unanswered={unanswered}
@@ -89,28 +81,28 @@ export class Cards extends Component {
 
 function mapStateToProps(
   { users, questions, authUser },
-  { match, question_id }
+  { match, questionID }
 ) {
   let question,
     author,
     pollType,
     badPath = false;
-  if (question_id !== undefined) {
-    question = questions[question_id];
+  if (questionID !== undefined) {
+    question = questions[questionID];
     author = users[question.author];
-    pollType = pollTypes.POLL;
+    pollType = TypesOfPoll.POLL;
   } else {
-    const { question_id } = match.params;
-    question = questions[question_id];
+    const { questionID } = match.params;
+    question = questions[questionID];
     const user = users[authUser];
 
     if (question === undefined) {
       badPath = true;
     } else {
       author = users[question.author];
-      pollType = pollTypes.QUESTION;
+      pollType = TypesOfPoll.QUESTION;
       if (Object.keys(user.answers).includes(question.id)) {
-        pollType = pollTypes.POLL_RESULT;
+        pollType = TypesOfPoll.RESULT;
       }
     }
   }

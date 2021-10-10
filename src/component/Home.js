@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Tab } from 'semantic-ui-react';
-import UserCard from './Cards';
+import Card from './Cards';
 
 export class Home extends Component {
-  static propTypes = {
-    userQuestionData: PropTypes.object.isRequired
-  };
+
   render() {
     const { userQuestionData } = this.props;
 
-    return <Tab panes={panes({ userQuestionData })} className="tab" />;
+    return <Tab panes={tabPanes({ userQuestionData })} className="tab" />;
   }
 }
 
-const panes = props => {
+const tabPanes = props => {
   const { userQuestionData } = props;
   return [
     {
       menuItem: 'Unanswered',
       render: () => (
         <Tab.Pane>
-          {userQuestionData.answered.map(question => (
-            <UserCard
-              key={question.id}
-              question_id={question.id}
+          {userQuestionData.answered.map(ques => (
+            <Card
+              key={ques.id}
+              questionID={ques.id}
               unanswered={true}
             />
           ))}
@@ -36,10 +33,10 @@ const panes = props => {
       menuItem: 'Answered',
       render: () => (
         <Tab.Pane>
-          {userQuestionData.unanswered.map(question => (
-            <UserCard
-              key={question.id}
-              question_id={question.id}
+          {userQuestionData.unanswered.map(ques => (
+            <Card
+              key={ques.id}
+              questionID={ques.id}
               unanswered={false}
             />
           ))}
@@ -50,12 +47,12 @@ const panes = props => {
 };
 
 function mapStateToProps({ authUser, users, questions }) {
-  const answeredIds = Object.keys(users[authUser].answers);
+  const answeredIDs = Object.keys(users[authUser].answers);
   const answered = Object.values(questions)
-    .filter(question => !answeredIds.includes(question.id))
+    .filter(ques => !answeredIDs.includes(ques.id))
     .sort((a, b) => b.timestamp - a.timestamp);
   const unanswered = Object.values(questions)
-    .filter(question => answeredIds.includes(question.id))
+    .filter(ques => answeredIDs.includes(ques.id))
     .sort((a, b) => b.timestamp - a.timestamp);
 
   return {

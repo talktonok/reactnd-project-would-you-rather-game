@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -11,41 +10,40 @@ import {
   Dimmer,
   Loader
 } from 'semantic-ui-react';
-import { handleSaveQuestion } from '../actions/Question';
+import { saveQuestionHandler } from '../actions/index';
 
 export class NewPoll extends Component {
-  static propTypes = {
-    authUser: PropTypes.string.isRequired,
-    handleSaveQuestion: PropTypes.func.isRequired
-  };
   state = {
     validSubmit: false,
     isLoading: false,
-    option1: '',
-    option2: ''
+    optionA: '',
+    optionB: ''
   };
-  handleChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-  handleSubmit = e => {
+
+  submitHandler = e => {
     e.preventDefault();
-    const { authUser, handleSaveQuestion } = this.props;
-    const { option1, option2 } = this.state;
+    const { authUser, saveQuestionHandler } = this.props;
+    const { optionA, optionB } = this.state;
 
     new Promise((res, rej) => {
       this.setState({ isLoading: true });
-      handleSaveQuestion(option1, option2, authUser);
+      saveQuestionHandler(optionA, optionB, authUser);
       setTimeout(() => res('success'), 1000);
     }).then(() => {
       this.setState({
-        option1: '',
-        option2: ''
+        optionA: '',
+        optionB: ''
       });
       this.setState({ validSubmit: true });
     });
   };
+
+  changeHandler = e => {
+    this.setState({ [e.target.id]: e.target.value });
+  };
+  
   render() {
-    const disabled = this.state.option1 === '' || this.state.option2 === '';
+    const disabled = this.state.optionA === '' || this.state.optionB === '';
 
     if (this.state.validSubmit === true) {
       return <Redirect to="/" />;
@@ -66,20 +64,20 @@ export class NewPoll extends Component {
             <p>
               <strong>Would you rather...</strong>
             </p>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.submitHandler}>
               <Form.Input
-                id="option1"
+                id="optionA"
                 placeholder="Enter option one..."
-                value={this.state.option1}
-                onChange={this.handleChange}
+                value={this.state.optionA}
+                onChange={this.changeHandler}
                 required
               />
               <Divider horizontal>Or</Divider>
               <Form.Input
-                id="option2"
+                id="optionB"
                 placeholder="Enter option two..."
-                value={this.state.option2}
-                onChange={this.handleChange}
+                value={this.state.optionB}
+                onChange={this.changeHandler}
                 required
               />
               <Form.Button positive size="tiny" fluid disabled={disabled}>
@@ -101,5 +99,5 @@ function mapStateToProps({ authUser }) {
 
 export default connect(
   mapStateToProps,
-  { handleSaveQuestion }
+  { saveQuestionHandler }
 )(NewPoll);

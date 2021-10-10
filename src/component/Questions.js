@@ -1,44 +1,38 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Header, Button, Form, Radio } from 'semantic-ui-react';
-import { handleSaveQuestionAnswer } from '../actions/User';
+import { saveQuestionsAnswerHandler } from '../actions/User';
 
-export class PollQuestion extends Component {
-  static propTypes = {
-    authUser: PropTypes.string.isRequired,
-    handleSaveQuestionAnswer: PropTypes.func.isRequired,
-    question: PropTypes.object.isRequired
-  };
+export class Questions extends Component {
   state = {
     value: ''
   };
 
-  handleChange = (e, { value }) => this.setState({ value });
-
-  handleSubmit = e => {
+  submitHandler = e => {
     e.preventDefault();
     if (this.state.value !== '') {
-      const { authUser, question, handleSaveQuestionAnswer } = this.props;
-      handleSaveQuestionAnswer(authUser, question.id, this.state.value);
+      const { authUser, question, saveQuestionsAnswerHandler } = this.props;
+      saveQuestionsAnswerHandler(authUser, question.id, this.state.value);
     }
   };
+
+  changeHandler = (e, { value }) => this.setState({ value: value });
 
   render() {
     const { question } = this.props;
     const disabled = this.state.value === '' ? true : false;
 
     return (
-      <Fragment>
+      <Fragment key={question.id}>
         <Header as="h4">Would you rather</Header>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.submitHandler}>
           <Form.Field>
             <Radio
               label={question.optionOne.text}
               name="radioGroup"
               value="optionOne"
               checked={this.state.value === 'optionOne'}
-              onChange={this.handleChange}
+              onChange={this.changeHandler}
             />
             <br />
             <Radio
@@ -46,7 +40,7 @@ export class PollQuestion extends Component {
               name="radioGroup"
               value="optionTwo"
               checked={this.state.value === 'optionTwo'}
-              onChange={this.handleChange}
+              onChange={this.changeHandler}
             />
           </Form.Field>
           <Form.Field>
@@ -66,8 +60,6 @@ export class PollQuestion extends Component {
 }
 
 function mapStateToProps({ authUser }, { match }) {
-  // const { question_id } = match.params;
-  // const question = questions[question_id];
 
   return {
     authUser
@@ -76,6 +68,5 @@ function mapStateToProps({ authUser }, { match }) {
 
 export default connect(
   mapStateToProps,
-  { handleSaveQuestionAnswer }
-)(PollQuestion);
-// export default PollQuestion;
+  { saveQuestionsAnswerHandler }
+)(Questions);

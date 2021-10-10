@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import PropType from 'prop-types';
 import { connect } from 'react-redux';
 import {
   Segment,
@@ -13,14 +12,12 @@ import {
 const trophyColor = ['yellow', 'grey', 'orange'];
 
 export class Leaderboad extends Component {
-  static propType = {
-    leaderboardData: PropType.array.isRequired
-  };
+
   render() {
     const { leaderboardData } = this.props;
 
     return (
-      <Fragment>
+      <Fragment >
         {leaderboardData.map((user, idx) => (
           <Segment.Group key={user.id}>
             <Label corner="left" icon="trophy" color={trophyColor[idx]} />
@@ -64,13 +61,13 @@ export class Leaderboad extends Component {
 
 function mapStateToProps({ users }) {
   const leaderboardData = Object.values(users)
-    .map(user => ({
-      id: user.id,
-      name: user.name,
-      avatarURL: user.avatarURL,
-      answerCount: Object.values(user.answers).length,
-      questionCount: user.questions.length,
-      total: Object.values(user.answers).length + user.questions.length
+    .map(u => ({
+      id: u.id,
+      name: u.name,
+      avatarURL: u.avatarURL,
+      answerCount: Object.values(u.answers).length,
+      questionCount: u.questions.length,
+      total: Object.values(u.answers).length + u.questions.length
     }))
     .sort((a, b) => a.total - b.total)
     .reverse()

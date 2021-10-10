@@ -1,32 +1,29 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Header, Button } from 'semantic-ui-react';
 import { colors } from '../utils/helpers';
 
-export class Poll extends Component {
-  static propTypes = {
-    question: PropTypes.object.isRequired,
-    unanswered: PropTypes.bool.isRequired
-  };
+class Poll extends Component {
+
   state = {
     viewPoll: false
   };
-  handleClick = e => {
-    this.setState(prevState => ({
-      viewPoll: !prevState.viewPoll
+  clickHandler = e => {
+    this.setState(previousState => ({
+      viewPoll: !previousState.viewPoll
     }));
   };
   render() {
     const { question, unanswered } = this.props;
-    const buttonColor = unanswered === true ? colors.green : colors.blue;
     const buttonContent = unanswered === true ? 'Answer Poll' : 'Results';
+    const buttonColor = unanswered === true ? colors.green : colors.blue;
+    
 
     if (this.state.viewPoll === true) {
       return <Redirect push to={`/questions/${question.id}`} />;
     }
     return (
-      <Fragment>
+      <Fragment key={question.id}>
         <Header as="h5" textAlign="left">
           Would you rather
         </Header>
@@ -39,7 +36,7 @@ export class Poll extends Component {
           color={buttonColor.name}
           size="tiny"
           fluid
-          onClick={this.handleClick}
+          onClick={this.clickHandler}
           content={buttonContent}
         />
       </Fragment>

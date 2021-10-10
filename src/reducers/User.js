@@ -1,17 +1,17 @@
 import {
-    RECEIVE_USERS,
-    ADD_ANSWER_TO_USER,
-    ADD_QUESTION_TO_USER
+    USERS_RECEIVED,
+    ANSWER_TO_USER_ADD,
+    QUESTION_TO_USER_ADD
   } from '../actions/User';
   
-  export default function users(state = {}, action) {
+  function User(state = {}, action) {
     switch (action.type) {
-      case RECEIVE_USERS:
+      case USERS_RECEIVED:
         return {
           ...state,
           ...action.users
         };
-      case ADD_ANSWER_TO_USER:
+      case ANSWER_TO_USER_ADD:
         const { authUser, qid, answer } = action;
   
         return {
@@ -24,7 +24,7 @@ import {
             }
           }
         };
-      case ADD_QUESTION_TO_USER:
+      case QUESTION_TO_USER_ADD:
         const { id, author } = action;
   
         return {
@@ -38,4 +38,4 @@ import {
         return state;
     }
   }
-  
+  export default User

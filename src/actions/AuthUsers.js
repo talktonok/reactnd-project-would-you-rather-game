@@ -1,8 +1,8 @@
-export const SET_AUTH_USER = 'SET_AUTH_USER';
+export const SET_USER_AUTH = 'SET_USER_AUTH';
 
-export function setAuthUser(id) {
+export function setUserAuth(id) {
   return {
-    type: SET_AUTH_USER,
+    type: SET_USER_AUTH,
     id
   };
 }

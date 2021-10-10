@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header } from 'semantic-ui-react';
 
-export class NoMatch extends Component {
+export class Error404 extends Component {
   render() {
     return (
       <Container textAlign="center">
@@ -12,4 +12,4 @@ export class NoMatch extends Component {
   }
 }
 
-export default NoMatch;
+export default Error404;

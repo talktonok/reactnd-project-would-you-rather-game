@@ -1,17 +1,18 @@
 import {
-    RECEIVE_QUESTIONS,
-    ADD_ANSWER_TO_QUESTION,
-    ADD_QUESTION
-  } from '../actions/Question';
+    QUESTIONS_RECEIVED,
+    ANSWER_TO_QUESTION_ADD,
+    QUESTION_ADD
+  } from '../actions/index';
+//import Questions from '../component/Questions';
   
-  export default function questions(state = {}, action) {
+  function Question(state = {}, action) {
     switch (action.type) {
-      case RECEIVE_QUESTIONS:
+      case QUESTIONS_RECEIVED:
         return {
           ...state,
           ...action.questions
         };
-      case ADD_ANSWER_TO_QUESTION:
+      case ANSWER_TO_QUESTION_ADD:
         const { authUser, qid, answer } = action;
   
         return {
@@ -24,7 +25,7 @@ import {
             }
           }
         };
-      case ADD_QUESTION:
+      case QUESTION_ADD:
         const { question } = action;
   
         return {
@@ -35,4 +36,6 @@ import {
         return state;
     }
   }
+
+  export default Question
   
