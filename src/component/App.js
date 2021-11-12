@@ -8,8 +8,9 @@ import NavBar from './NavBar';
 import Home from './Home';
 import Cards from './Cards';
 import NewPoll from './NewPoll';
-import Leaderboard from './LeaderBoad';
+import Leaderboard from './Mazaje';
 import Error404 from './Error404';
+import {mapAuthUserStateToProps} from './Map'
 
 class App extends Component {
   componentDidMount() {
@@ -57,13 +58,10 @@ const ContentGrid = ({ children }) => (
   </Grid>
 );
 
-function mapStateToProps({ authUser }) {
-  return {
-    authUser
-  };
-}
+
+
 
 export default connect(
-  mapStateToProps,
+  mapAuthUserStateToProps,
   { initialDataHandler }
 )(App);

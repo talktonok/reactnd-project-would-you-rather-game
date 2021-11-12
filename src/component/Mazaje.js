@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import {mazaje} from './Map';
 import { connect } from 'react-redux';
 import {
   Segment,
@@ -11,14 +12,15 @@ import {
 
 const trophyColor = ['yellow', 'grey', 'orange'];
 
-export class Leaderboad extends Component {
+export class Mazaje extends Component {
 
   render() {
-    const { leaderboardData } = this.props;
+   const { board } = this.props;
+   //const {users} = this.props
 
     return (
       <Fragment >
-        {leaderboardData.map((user, idx) => (
+        {board.map((user, idx) => (
           <Segment.Group key={user.id}>
             <Label corner="left" icon="trophy" color={trophyColor[idx]} />
             <Grid divided padded>
@@ -59,22 +61,4 @@ export class Leaderboad extends Component {
   }
 }
 
-function mapStateToProps({ users }) {
-  const leaderboardData = Object.values(users)
-    .map(u => ({
-      id: u.id,
-      name: u.name,
-      avatarURL: u.avatarURL,
-      answerCount: Object.values(u.answers).length,
-      questionCount: u.questions.length,
-      total: Object.values(u.answers).length + u.questions.length
-    }))
-    .sort((a, b) => a.total - b.total)
-    .reverse()
-    .slice(0, 3);
-  return {
-    leaderboardData
-  };
-}
-
-export default connect(mapStateToProps)(Leaderboad);
+export default connect(mazaje)(Mazaje);

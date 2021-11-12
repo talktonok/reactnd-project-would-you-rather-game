@@ -37,6 +37,7 @@ export class NewPoll extends Component {
       this.setState({ validSubmit: true });
     });
   };
+  
 
   changeHandler = e => {
     this.setState({ [e.target.id]: e.target.value });
