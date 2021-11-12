@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { createMedia } from "@artsy/fresnel";
 import { setUserAuth } from '../actions/AuthUsers';
+import {mapAuthUserStateToProps} from './Map'
 
 class NavBar extends Component {
   logoutHandler = e => {
@@ -79,14 +80,9 @@ class NavBar extends Component {
   }
 }
 
-function mapStateToProps({ users, authUser }) {
-  return {
-    authUser,
-    users
-  };
-}
+
 
 export default connect(
-  mapStateToProps,
+  mapAuthUserStateToProps,
   { setUserAuth }
 )(NavBar);

@@ -10,7 +10,7 @@ import Cards from './Cards';
 import NewPoll from './NewPoll';
 import Leaderboard from './Mazaje';
 import Error404 from './Error404';
-import {mapAuthUserStateToProps} from './Map'
+import {mapAuthStateToProps} from './Map'
 
 class App extends Component {
   componentDidMount() {
@@ -62,6 +62,6 @@ const ContentGrid = ({ children }) => (
 
 
 export default connect(
-  mapAuthUserStateToProps,
+  mapAuthStateToProps,
   { initialDataHandler }
 )(App);

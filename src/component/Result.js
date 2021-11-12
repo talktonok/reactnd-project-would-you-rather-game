@@ -10,6 +10,7 @@ import {
   Button
 } from 'semantic-ui-react';
 import { styles } from '../utils/helpers';
+import {mapAuthUserStateToProps} from './Map'
 
 
 export class Result extends Component {
@@ -79,11 +80,4 @@ export class Result extends Component {
   }
 }
 
-function mapStateToProps({ users, authUser }) {
-  const user = users[authUser];
-  return {
-    user
-  };
-}
-
-export default withRouter(connect(mapStateToProps)(Result));
+export default withRouter(connect(mapAuthUserStateToProps)(Result));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Header, Form } from 'semantic-ui-react';
 import { setUserAuth } from '../../actions/AuthUsers';
 import { connect } from 'react-redux';
+import {mapUsersStateToProps} from '../Map'
 
 class LoginForm extends Component {
     state = {
@@ -59,12 +60,7 @@ class LoginForm extends Component {
     }
   }
 
-  function mapStateToProps({ users }) {
-    return {
-      users: Object.values(users)
-    };
-  }
   export default connect(
-    mapStateToProps,
+    mapUsersStateToProps,
     { setUserAuth }
   )(LoginForm);

@@ -11,6 +11,7 @@ import {
   Loader
 } from 'semantic-ui-react';
 import { saveQuestionHandler } from '../actions/index';
+import {mapAuthStateToProps} from './Map'
 
 export class NewPoll extends Component {
   state = {
@@ -92,13 +93,9 @@ export class NewPoll extends Component {
   }
 }
 
-function mapStateToProps({ authUser }) {
-  return {
-    authUser
-  };
-}
+
 
 export default connect(
-  mapStateToProps,
+  mapAuthStateToProps,
   { saveQuestionHandler }
 )(NewPoll);

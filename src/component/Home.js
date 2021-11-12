@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tab } from 'semantic-ui-react';
 import Card from './Cards';
+import {mapHomeStateToProps} from './Map'
 
 export class Home extends Component {
 
@@ -46,21 +47,6 @@ const tabPanes = props => {
   ];
 };
 
-function mapStateToProps({ authUser, users, questions }) {
-  const answeredIDs = Object.keys(users[authUser].answers);
-  const answered = Object.values(questions)
-    .filter(ques => !answeredIDs.includes(ques.id))
-    .sort((a, b) => b.timestamp - a.timestamp);
-  const unanswered = Object.values(questions)
-    .filter(ques => answeredIDs.includes(ques.id))
-    .sort((a, b) => b.timestamp - a.timestamp);
 
-  return {
-    userQuestionData: {
-      answered,
-      unanswered
-    }
-  };
-}
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapHomeStateToProps)(Home);

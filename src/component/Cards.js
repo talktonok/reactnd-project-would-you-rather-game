@@ -6,12 +6,9 @@ import Questions from './Questions';
 import Result from './Result';
 import Poll from './Poll';
 import { colors } from '../utils/helpers';
+import {TypesOfPoll, mapCardStateToProps} from './Map'
 
-const TypesOfPoll = {
-  POLL: 'POLL',
-  QUESTION: 'QUESTION',
-  RESULT: 'RESULT'
-};
+
 
 const ContentOfPoll = props => {
   const { pollType, question, unanswered } = props;
@@ -79,40 +76,4 @@ export class Cards extends Component {
   }
 }
 
-function mapStateToProps(
-  { users, questions, authUser },
-  { match, questionID }
-) {
-  let question,
-    author,
-    pollType,
-    badPath = false;
-  if (questionID !== undefined) {
-    question = questions[questionID];
-    author = users[question.author];
-    pollType = TypesOfPoll.POLL;
-  } else {
-    const { questionID } = match.params;
-    question = questions[questionID];
-    const user = users[authUser];
-
-    if (question === undefined) {
-      badPath = true;
-    } else {
-      author = users[question.author];
-      pollType = TypesOfPoll.QUESTION;
-      if (Object.keys(user.answers).includes(question.id)) {
-        pollType = TypesOfPoll.RESULT;
-      }
-    }
-  }
-
-  return {
-    badPath,
-    question,
-    author,
-    pollType
-  };
-}
-
-export default connect(mapStateToProps)(Cards);
+export default connect(mapCardStateToProps)(Cards);

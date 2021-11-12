@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Header, Button, Form, Radio } from 'semantic-ui-react';
 import { saveQuestionsAnswerHandler } from '../actions/User';
+import {mapAuthStateToProps} from './Map'
 
 export class Questions extends Component {
   state = {
@@ -59,14 +60,9 @@ export class Questions extends Component {
   }
 }
 
-function mapStateToProps({ authUser }, { match }) {
 
-  return {
-    authUser
-  };
-}
 
 export default connect(
-  mapStateToProps,
+  mapAuthStateToProps,
   { saveQuestionsAnswerHandler }
 )(Questions);
